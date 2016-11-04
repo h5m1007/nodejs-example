@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WebSocket echo test</title>
+	<script>
+		var lastMessage; // 存储延时的变量
+
+		window.onload = function(){
+			// 建立socket
+			var ws = new WebSocket('ws://echo.websocket.org/echo');
+
+			// 服务端响应websocket连接请求时触发open事件
+			ws.onopen = function(){
+				// 向服务器发送第一条消息
+				ping();
+			}
+
+			// 服务端已接收客户端的消息触发message事件
+			ws.onmessage = function(ev){
+				// 服务器端响应后
+				// 接收来自服务器端socket.send('pong')
+				console.log(' got: ' + ev.data);
+
+				document.getElementById('latency').innerHTML = new Date - lastMessage + " ms";
+
+				ping(); // 再发出一条消息
+			}
+
+			function ping(){
+				// 记录发送消息前的时间戳
+				// 用作最终计算耗时
+				lastMessage = +new Date;
+				ws.send('ping' + lastMessage);
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>WebSocket Echo</h1>
+	<h2>Latency: <span id="latency">ms</span></h2>
+</body>
+</html>

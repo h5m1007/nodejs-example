@@ -1,0 +1,7 @@
+{
+	"name": "websocket-stock",
+	"version": "0.0.1",
+	"dependencies": {
+		"ws": "1.1.0"
+	}
+}

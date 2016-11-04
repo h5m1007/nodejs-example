@@ -1,0 +1,11 @@
+<h1>Baidu Baike Search results for <%= search %></h1>
+
+<% if (results.length) { %>
+	<ul>
+		<% for (var i = 0; i < results.length; i++) { %>
+		<li><%= results[i].name %> - <em><%= results[i].value %></em></li>
+		<% } %>
+	</ul>
+<% } else { %>
+	<p>No resultes</p>
+<% } %>

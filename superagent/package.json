@@ -1,0 +1,7 @@
+{
+	"name": "superagent",
+	"version": "0.0.1",
+	"dependencies": {
+		"superagent": "0.3.0"
+	}
+}

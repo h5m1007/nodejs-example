@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>websocket</title>
+	<script>
+		function addLoadEvent(func){
+			var oldonload = window.onload;
+			if(typeof window.onload !=  "function"){
+				window.onload = func;
+			} else {
+				window.onload = function(){
+					oldonload();
+					func();
+				}
+			}
+		}
+		
+		function setup(){
+
+			if(window.WebSocket){
+				console.log("This is browser supports WebSocket!");
+			} else {
+				console.log("This browser does not support WebSocket.");
+				return;
+			}
+
+			output = document.getElementById("output");
+			ws = new WebSocket("ws://echo.websocket.org/echo");
+
+			ws.addEventListener('open', function(){
+				log('1: Connected!');
+				sendMessage(" 4: Hello WebSocket! == e.data");
+			});
+
+			ws.addEventListener('close', function(e){
+				log("5: Disconnected: " + e.reason);
+			});
+
+			ws.addEventListener('error', function(e){
+				log("Error!");
+			});
+
+			ws.addEventListener('message', function(e){
+				log("3: Message received: " + e.data);
+				ws.close(1000, "6: close by myself!"); // 手动关闭连接
+			});
+		}
+
+		function sendMessage(msg){
+			ws.send(msg);
+			log("2: Message sent!");
+		}
+
+		function log(s){
+			var p = document.createElement("P");
+
+			p.style.wordWrap = "break-word";
+			p.textContent = s;
+
+			output.appendChild(p);
+			console.log(s);
+		}
+
+		addLoadEvent(setup);
+	</script>
+</head>
+<body>
+	<h2>Websocket Echo Client!</h2>
+	<div id="output"></div>
+</body>
+</html>
